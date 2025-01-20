@@ -28,9 +28,12 @@ function verificarIntento() {
   } else {
     //El usuario no acertó.
     if (numeroDeUsuario > numeroSecreto) {
-      asignarTextoElemento("p", `Pista 💡: es menor que ${numeroDeUsuario}`);
+      asignarTextoElemento(
+        "p",
+        `Pista 💡: es menor que el  ${numeroDeUsuario}`
+      );
     } else {
-      asignarTextoElemento("p", `Pista 💡: es mayor que ${numeroDeUsuario}`);
+      asignarTextoElemento("p", `Pista 💡: es mayor que el ${numeroDeUsuario}`);
     }
     intentos++;
     limpiarCaja();
