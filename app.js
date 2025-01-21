@@ -25,6 +25,7 @@ function verificarIntento() {
     asignarTextoElemento("span", `Intentos realizados: ${intentos}`);
 
     document.getElementById("reiniciar").removeAttribute("disabled");
+    document.getElementById("intentar").setAttribute("disabled", "true");
   } else {
     //El usuario no acertó.
     if (numeroDeUsuario > numeroSecreto) {
@@ -76,6 +77,11 @@ function reiniciarJuego() {
   condicionesIniciales();
   //Deshabilitar el botón de nuevo juego
   document.querySelector("#reiniciar").setAttribute("disabled", "true");
+
+  //Habilitar el boton de intentar
+  document.getElementById("intentar").removeAttribute("disabled");
+
+  //Limpiar los mensajes
   asignarTextoElemento("p", "");
   asignarTextoElemento("span", "");
 }

@@ -75,6 +75,10 @@ h2 {
   background: #898989;
 }
 
+.boton_intentar:disabled {
+  background: #898989;
+}
+
 /*INPUT DE TEXTO */
 
 .container__input {
