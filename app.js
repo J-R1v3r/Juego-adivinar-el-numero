@@ -1,7 +1,4 @@
-let numeroSecreto = 0;
-let intentos = 0;
-let listaNumerosSorteados = [];
-let numeroMaximo = 10;
+let numeroSecreto = 0, intentos = 0, listaNumerosSorteados = [], numeroMaximo = 10;
 
 function asignarTextoElemento(elemento, texto) {
   let elementoHTML = document.querySelector(elemento);
@@ -11,30 +8,32 @@ function asignarTextoElemento(elemento, texto) {
 
 function verificarIntento() {
   let valorUsuario = document.getElementById("valorUsuario").value;
-
-  // Validar si el usuario ingreso o no un valor
+  // Validar si el usuario ingresó o no un valor
   if (valorUsuario.trim() === "") {
-    asignarTextoElemento("p", "Debes de ingresar un número para adivinar");
+    asignarTextoElemento("p", "Debes ingresar un número válido entre 1 y 10");
     return;
   }
-  // Si el usuario ingreso un valor, convertir el valor en un numero valido
+  // Si el usuario ingreso un valor, convertir el valor en un número válido
   let numeroDeUsuario = parseInt(valorUsuario);
 
-  if (numeroDeUsuario === numeroSecreto) {
-    asignarTextoElemento("p", `¡Felicitaciones 🎉 adivinaste el número !`);
-    asignarTextoElemento("span", `Intentos realizados: ${intentos}`);
+  // Validar si el valor ingresado es un número y está en el rango de 1 a 10
+  if (isNaN(numeroDeUsuario) || numeroDeUsuario < 1 || numeroDeUsuario > 10) {
+    asignarTextoElemento("p", "Debes ingresar un número válido entre 1 y 10");
+    return;
+  }
 
+  if (numeroDeUsuario === numeroSecreto) {
+    asignarTextoElemento("p", `🎉 ¡Felicitaciones! Adivinaste el número 🎉`);
+    asignarTextoElemento("span", `Intentos realizados: ${intentos}`);
     document.getElementById("reiniciar").removeAttribute("disabled");
     document.getElementById("intentar").setAttribute("disabled", "true");
+    document.getElementById("valorUsuario").setAttribute("disabled", "true");
   } else {
     //El usuario no acertó.
     if (numeroDeUsuario > numeroSecreto) {
-      asignarTextoElemento(
-        "p",
-        `Pista 💡: es menor que el  ${numeroDeUsuario}`
-      );
+      asignarTextoElemento("p", `💡: El número es menor que ${numeroDeUsuario}`);
     } else {
-      asignarTextoElemento("p", `Pista 💡: es mayor que el ${numeroDeUsuario}`);
+      asignarTextoElemento("p", `💡: El númnero es mayor que ${numeroDeUsuario}`);
     }
     intentos++;
     limpiarCaja();
@@ -42,13 +41,18 @@ function verificarIntento() {
   return;
 }
 
+document.getElementById('valorUsuario').addEventListener('keypress', function(event) {
+  if (event.key === 'Enter') {
+      verificarIntento();
+  }
+});
+
 function limpiarCaja() {
   document.querySelector("#valorUsuario").value = "";
 }
 
 function generarNumeroSecreto() {
   let numeroGenerado = Math.floor(Math.random() * numeroMaximo) + 1;
-
   //Si ya sorteamos todos los números
   if (listaNumerosSorteados.length == numeroMaximo) {
     asignarTextoElemento("p", "Ya se sortearon todos los números posibles");
@@ -69,19 +73,11 @@ function condicionesIniciales() {
 }
 
 function reiniciarJuego() {
-  //limpiar caja
   limpiarCaja();
-  //Indicar mensaje de intervalo de números
-  //Generar el número aleatorio
-  //Inicializar el número intentos
   condicionesIniciales();
-  //Deshabilitar el botón de nuevo juego
+  document.getElementById("valorUsuario").removeAttribute("disabled");
   document.querySelector("#reiniciar").setAttribute("disabled", "true");
-
-  //Habilitar el boton de intentar
   document.getElementById("intentar").removeAttribute("disabled");
-
-  //Limpiar los mensajes
   asignarTextoElemento("p", "");
   asignarTextoElemento("span", "");
 }
